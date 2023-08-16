@@ -15,6 +15,7 @@ class HomeMoviesScreen extends StatelessWidget {
       body: Center(
         child: _HomeMoviesView(),
       ),
+      bottomNavigationBar: CustomBottomNavigationbar(),
     );
   }
 }
