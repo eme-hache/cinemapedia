@@ -30,7 +30,8 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return;
 
-      if ((scrollController.position.pixels + 200) >= scrollController.position.maxScrollExtent) {
+      if ((scrollController.position.pixels + 200) >=
+          scrollController.position.maxScrollExtent) {
         widget.loadNextPage!();
       }
     });
@@ -45,7 +46,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
+      height: 370,
       child: Column(
         children: [
           if (widget.title != null || widget.subtitle != null)
@@ -78,8 +79,8 @@ class _Title extends StatelessWidget {
     final titleStyle = Theme.of(context).textTheme.titleLarge;
 
     return Container(
-      padding: const EdgeInsets.only(top: 10),
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      margin: const EdgeInsets.symmetric(horizontal: 15),
       child: Row(children: [
         if (title != null) Text(title!, style: titleStyle),
         const Spacer(),
@@ -115,11 +116,14 @@ class _Slide extends StatelessWidget {
               child: Image.network(
                 movie.posterPath,
                 width: 150,
+                height: 225,
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {
-                    return const Center(
-                        child: CircularProgressIndicator(strokeWidth: 2));
+                  return const SizedBox(
+                      height: 225,
+                      child: Center(
+                          child: CircularProgressIndicator(strokeWidth: 2)));
                   }
 
                   return FadeIn(child: child);
@@ -127,14 +131,17 @@ class _Slide extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 7),
           // Title
-          SizedBox(
-            width: 150,
-            child: Text(
-              movie.title,
-              maxLines: 2,
-              style: textStyles.titleSmall,
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: SizedBox(
+              width: 120,
+              child: Text(
+                movie.title,
+                maxLines: 2,
+                style: textStyles.titleSmall,
+              ),
             ),
           ),
           SizedBox(

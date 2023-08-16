@@ -58,6 +58,7 @@ class _HomeMoviesViewState extends ConsumerState<_HomeMoviesView> {
           child: CustomScrollView(slivers: [
             const SliverAppBar(
               floating: true,
+              toolbarHeight: 70,
               flexibleSpace: FlexibleSpaceBar(
                 title: CustomAppbar(),
                 centerTitle: true,
