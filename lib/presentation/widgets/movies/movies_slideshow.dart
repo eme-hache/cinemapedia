@@ -3,6 +3,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:animate_do/animate_do.dart';
 
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:go_router/go_router.dart';
 
 class MoviesSlideshow extends StatelessWidget {
   final List<Movie> movies;
@@ -39,6 +40,8 @@ class _Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyles = Theme.of(context).textTheme;
+
     final decoration = BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: const [
@@ -61,7 +64,55 @@ class _Slide extends StatelessWidget {
                       decoration: BoxDecoration(color: Colors.black12));
                 }
 
-                return FadeIn(child: child);
+                return GestureDetector(
+                    onTap: () => context.push('/movie/${movie.id}'),
+                    child: FadeIn(
+                        child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        child,
+                        const DecoratedBox(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    stops: [
+                              0.7,
+                              1.0
+                            ],
+                                    colors: [
+                              Colors.transparent,
+                              Colors.black87
+                            ]))),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(movie.title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyles.titleMedium
+                                          ?.copyWith(color: Colors.white)),
+                                ),
+                                /* const Spacer(), */
+                                const SizedBox(width: 10),
+                                Icon(Icons.star, color: Colors.yellow.shade800),
+                                const SizedBox(width: 3),
+                                Text('${movie.voteAverage}',
+                                    style: textStyles.bodyMedium
+                                        ?.copyWith(color: Colors.white)),
+                              ],
+                            ) /* Text(movie.title,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 16)) */
+                            ,
+                          ),
+                        )
+                      ],
+                    )));
               },
             ),
           )),

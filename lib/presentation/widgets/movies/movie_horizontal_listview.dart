@@ -129,8 +129,8 @@ class _Slide extends StatelessWidget {
                   }
 
                   return GestureDetector(
-                    child: FadeIn(child: child),
                     onTap: () => context.push('/movie/${movie.id}'),
+                    child: FadeIn(child: child),
                   );
                 },
               ),
@@ -153,7 +153,7 @@ class _Slide extends StatelessWidget {
             width: 150,
             child: Row(
               children: [
-                Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
+                Icon(Icons.star, color: Colors.yellow.shade800),
                 const SizedBox(width: 3),
                 Text('${movie.voteAverage}',
                     style: textStyles.bodyMedium
