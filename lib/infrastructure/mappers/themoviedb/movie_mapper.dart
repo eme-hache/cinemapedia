@@ -1,9 +1,8 @@
+import 'package:cinemapedia/infrastructure/models/models.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/infrastructure/models/themoviedb/movie_details.dart';
-import 'package:cinemapedia/infrastructure/models/themoviedb/movie_the_moviedb.dart';
 
 class MovieMapper {
-  static Movie theMovieDBToEntity(MovieTheMovieDB theMovieDb) => Movie(
+  static Movie theMovieDBToEntity(MovieGeneral theMovieDb) => Movie(
       adult: theMovieDb.adult,
       backdropPath: (theMovieDb.backdropPath != '')
           ? 'https://image.tmdb.org/t/p/w500${theMovieDb.backdropPath}'

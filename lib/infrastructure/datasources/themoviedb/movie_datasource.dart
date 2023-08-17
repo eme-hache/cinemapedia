@@ -1,12 +1,13 @@
-import 'package:cinemapedia/config/constants/environment.dart';
-import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
-import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
-import 'package:cinemapedia/infrastructure/models/themoviedb/movie_details.dart';
-import 'package:cinemapedia/infrastructure/models/themoviedb/the_moviedb_response.dart';
 import 'package:dio/dio.dart';
 
-class TheMovieDBDatasource extends MoviesDatasource {
+import 'package:cinemapedia/infrastructure/models/themoviedb/movies_response.dart';
+import 'package:cinemapedia/infrastructure/models/themoviedb/movie_details.dart';
+import 'package:cinemapedia/infrastructure/mappers/themoviedb/movie_mapper.dart';
+import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
+import 'package:cinemapedia/config/constants/environment.dart';
+
+class MovieDatasource extends MoviesDatasource {
   final dio = Dio(BaseOptions(
       baseUrl: Environment.theMovieDBUrl,
       queryParameters: {
@@ -15,7 +16,7 @@ class TheMovieDBDatasource extends MoviesDatasource {
       }));
 
   List<Movie> _jsonToMovies(Map<String, dynamic> json) {
-    final theMovieDBResponse = TheMovieDbResponse.fromJson(json);
+    final theMovieDBResponse = MoviesResponse.fromJson(json);
     return theMovieDBResponse.results
         .where((theMovieDb) => theMovieDb.posterPath != 'no-poster')
         .map((theMovieDb) => MovieMapper.theMovieDBToEntity(theMovieDb))

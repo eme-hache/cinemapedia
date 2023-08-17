@@ -1,5 +1,5 @@
+import 'package:cinemapedia/infrastructure/models/models.dart';
 import 'package:cinemapedia/domain/entities/actor.dart';
-import 'package:cinemapedia/infrastructure/models/themoviedb/credits_response.dart';
 
 class ActorMapper {
   static Actor castToEntity(Cast cast) => Actor(
