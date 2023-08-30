@@ -10,64 +10,43 @@ typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
   final SearchMoviesCallback searchMovies;
+
   StreamController<List<Movie>> debouncedMovies = StreamController.broadcast();
+  StreamController<bool> isLoadingStream = StreamController.broadcast();
+  List<Movie> initialMovies;
   Timer? _debounceTimer;
-
-  SearchMovieDelegate({required this.searchMovies});
-
-  void _clearStreams() {
-    debouncedMovies.close();
-  }
-
-  void _onQueryChanged(String query) {
-    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
-
-    _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
-      if (query.isEmpty) {
-        debouncedMovies.add([]);
-        return;
-      }
-
-      final movies = await searchMovies(query);
-      debouncedMovies.add(movies);
-    });
-  }
 
   @override
   String get searchFieldLabel => 'Buscar película';
 
   @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      FadeIn(
-          duration: const Duration(milliseconds: 200),
-          animate: query.isNotEmpty,
-          child: IconButton(
-              onPressed: () => query = '', icon: const Icon(Icons.clear)))
-    ];
+  TextStyle get searchFieldStyle => const TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
+
+  SearchMovieDelegate(
+      {required this.searchMovies, required this.initialMovies});
+
+  void _clearStreams() {
+    debouncedMovies.close();
+    isLoadingStream.close();
   }
 
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          _clearStreams();
-          close(context, null);
-        },
-        icon: const Icon(Icons.arrow_back_ios_new_outlined));
+  void _onQueryChanged(String query) {
+    if (query.isNotEmpty) isLoadingStream.add(true);
+    
+    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
+      final movies = await searchMovies(query);
+      initialMovies = movies;
+
+      isLoadingStream.add(false);
+      debouncedMovies.add(movies);
+    });
   }
 
-  @override
-  Widget buildResults(BuildContext context) {
-    return const Text('build results');
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    _onQueryChanged(query);
-
+  Widget _buildResultsAndSuggestions() {
     return StreamBuilder(
-        // future: searchMovies(query),
+        initialData: initialMovies,
         stream: debouncedMovies.stream,
         builder: (context, snapshot) {
           final movies = snapshot.data ?? [];
@@ -83,6 +62,57 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
             ),
           );
         });
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: StreamBuilder(
+          initialData: false,
+          stream: isLoadingStream.stream,
+          builder: (context, snapshot) {
+            if (snapshot.data ?? false) {
+              return SpinPerfect(
+                  duration: const Duration(seconds: 20),
+                  spins: 10,
+                  infinite: true,
+                  child: IconButton(
+                      onPressed: () => query = '',
+                      icon: const Icon(Icons.refresh_rounded)));
+            }
+      
+            return FadeIn(
+                animate: query.isNotEmpty,
+                child: IconButton(
+                    onPressed: () => query = '', icon: const Icon(Icons.clear)));
+          },
+        ),
+      )
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          _clearStreams();
+          close(context, null);
+        },
+        icon: const Icon(Icons.arrow_back_ios_new_outlined));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return _buildResultsAndSuggestions();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    _onQueryChanged(query);
+
+    return _buildResultsAndSuggestions();
   }
 }
 
