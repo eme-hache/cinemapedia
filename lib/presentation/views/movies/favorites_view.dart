@@ -12,9 +12,12 @@ class FavoritesView extends ConsumerStatefulWidget {
   FavoritesViewState createState() => FavoritesViewState();
 }
 
-class FavoritesViewState extends ConsumerState<FavoritesView> {
+class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeepAliveClientMixin {
   bool isLastPage = false;
   bool isLoading = false;
+
+   @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
