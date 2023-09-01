@@ -42,6 +42,8 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    
     final favoriteMovies = ref.watch(favoriteMoviesProvider).values.toList();
 
     if (favoriteMovies.isEmpty) {
