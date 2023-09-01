@@ -5,11 +5,6 @@ import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:cinemapedia/domain/entities/entities.dart';
 
-final similarMoviesProvider = FutureProvider.family((ref, int movieId) {
-  final movieRepository = ref.watch(movieRepositoryProvider);
-  return movieRepository.getSimilarMovies(movieId);
-});
-
 class SimilarMovies extends ConsumerWidget {
   const SimilarMovies({super.key, required this.movieId});
 
