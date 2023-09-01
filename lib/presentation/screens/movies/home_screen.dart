@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.dispose();
   }
 
-  final viewRoutes = const <Widget>[HomeView(), SizedBox(), FavoritesView()];
+  final viewRoutes = const <Widget>[HomeView(), PopularView(), FavoritesView()];
 
   @override
   Widget build(BuildContext context) {

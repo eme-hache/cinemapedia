@@ -54,6 +54,55 @@ class _Slide extends StatelessWidget {
       child: DecoratedBox(
           decoration: decoration,
           child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: GestureDetector(
+                onTap: () => context.push('/home/0/movie/${movie.id}'),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder:
+                          const AssetImage('assets/loaders/bottle-loader.gif'),
+                      image: NetworkImage(movie.backdropPath),
+                    ),
+                    Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(movie.title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: textStyles.titleMedium
+                                          ?.copyWith(color: Colors.white)),
+                                ),
+                                /* const Spacer(), */
+                                const SizedBox(width: 10),
+                                Icon(Icons.star, color: Colors.yellow.shade800),
+                                const SizedBox(width: 3),
+                                Text('${movie.voteAverage}',
+                                    style: textStyles.bodyMedium
+                                        ?.copyWith(color: Colors.white)),
+                              ],
+                            ) /* Text(movie.title,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 16)) */
+                            ,
+                          ),
+                        )
+                  ],
+                ),
+              ))),
+    );
+
+    /* return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: DecoratedBox(
+          decoration: decoration,
+          child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Image.network(
               movie.backdropPath,
@@ -116,6 +165,6 @@ class _Slide extends StatelessWidget {
               },
             ),
           )),
-    );
+    ); */
   }
 }
