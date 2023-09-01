@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 import 'package:cinemapedia/config/router/app_router.dart';
 import 'package:cinemapedia/config/theme/app_theme.dart';
@@ -17,6 +18,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
+    
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
