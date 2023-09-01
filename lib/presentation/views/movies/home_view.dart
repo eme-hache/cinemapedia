@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:cinemapedia/presentation/providers/providers.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
+import 'package:cinemapedia/presentation/providers/providers.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({ super.key });
@@ -36,7 +36,6 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
     final nowPlayingMoviesSlideshow = ref.watch(moviesSlideShowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final upconmingMovies = ref.watch(upcomingMoviesProvider);
-    final popularMovies = ref.watch(popularMoviesProvider);
     final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     return Stack(
@@ -74,13 +73,6 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
                         .read(upcomingMoviesProvider.notifier)
                         .loadNextPage(),
                   ),
-                  //* Moved to center bottom tab
-                  // MovieHorizontalListview(
-                  //   movies: popularMovies,
-                  //   title: 'Populares',
-                  //   loadNextPage: () =>
-                  //       ref.read(popularMoviesProvider.notifier).loadNextPage(),
-                  // ),
                   MovieHorizontalListview(
                     movies: topRatedMovies,
                     title: 'Mejor calificadas',

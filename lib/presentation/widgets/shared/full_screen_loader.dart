@@ -7,8 +7,7 @@ class FullScreenLoader extends StatelessWidget {
     final List<String> messages = [
       'Cargando películas',
       'Comprando palomitas de maíz',
-      'Cargando populares',
-      'No me acoses',
+      'Cargando populares'
     ];
 
     return Stream.periodic(

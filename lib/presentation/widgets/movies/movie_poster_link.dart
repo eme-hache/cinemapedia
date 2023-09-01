@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
+import 'package:cinemapedia/domain/entities/entities.dart';
+import 'package:cinemapedia/config/constants/routes.dart';
 
 class MoviePosterLink extends StatelessWidget {
   const MoviePosterLink({super.key, required this.movie});
@@ -18,17 +20,12 @@ class MoviePosterLink extends StatelessWidget {
       from: random.nextInt(100) + 80,
       delay: Duration(milliseconds: random.nextInt(450) + 0),
       child: GestureDetector(
-        onTap: () => context.push('/home/0/movie/${movie.id}'),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: FadeInImage(
+          onTap: () => context.push('${Routes.home}/movie/${movie.id}'),
+          child: ImageContainer(
             height: 180,
-            fit: BoxFit.cover,
-            placeholder: const AssetImage('assets/loaders/bottle-loader.gif'),
-            image: NetworkImage(movie.posterPath),
-          ),
-        ),
-      ),
+            radius: 10,
+            imageUrl: movie.posterPath,
+          )),
     );
   }
 }

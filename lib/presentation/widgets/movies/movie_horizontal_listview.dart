@@ -1,22 +1,24 @@
-import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
 
-import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
+import 'package:cinemapedia/domain/entities/entities.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
+import 'package:cinemapedia/config/constants/routes.dart';
 
 class MovieHorizontalListview extends StatefulWidget {
-  final List<Movie> movies;
-  final String? title;
-  final String? subtitle;
-  final VoidCallback? loadNextPage;
-
   const MovieHorizontalListview(
       {super.key,
       required this.movies,
       this.title,
       this.subtitle,
       this.loadNextPage});
+
+  final List<Movie> movies;
+  final String? title;
+  final String? subtitle;
+  final VoidCallback? loadNextPage;
 
   @override
   State<MovieHorizontalListview> createState() =>
@@ -71,10 +73,10 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
 }
 
 class _Title extends StatelessWidget {
+  const _Title(this.title, this.subtitle);
+
   final String? title;
   final String? subtitle;
-
-  const _Title(this.title, this.subtitle);
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +99,9 @@ class _Title extends StatelessWidget {
 }
 
 class _Slide extends StatelessWidget {
-  final Movie movie;
-
   const _Slide({required this.movie});
+
+  final Movie movie;
 
   @override
   Widget build(BuildContext context) {
@@ -113,16 +115,12 @@ class _Slide extends StatelessWidget {
           //* Image
           SizedBox(
             width: 150,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: GestureDetector(
-                onTap: () => context.push('/home/0/movie/${ movie.id }'),
-                child: FadeInImage(
-                  height: 220,
-                  fit: BoxFit.cover,
-                  placeholder: const AssetImage('assets/loaders/bottle-loader.gif'), 
-                  image: NetworkImage(movie.posterPath)
-                ),
+            child: GestureDetector(
+              onTap: () => context.push('${Routes.home}/movie/${ movie.id }'),
+              child: ImageContainer(
+                height: 220,
+                radius: 20,
+                imageUrl: movie.posterPath,
               ),
             ),
           ),

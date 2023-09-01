@@ -4,10 +4,11 @@ import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:cinemapedia/presentation/views/views.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String name = 'home-screen';
-  final int pageIndex;
-
   const HomeScreen({super.key, required this.pageIndex});
+
+  static const String name = 'home-screen';
+
+  final int pageIndex;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

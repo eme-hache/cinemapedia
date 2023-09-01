@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 
-import 'package:cinemapedia/config/helpers/human_formats.dart';
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/config/helpers/human_formats.dart';
 
 typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
 
@@ -20,7 +21,8 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
   String get searchFieldLabel => 'Buscar película';
 
   @override
-  TextStyle get searchFieldStyle => const TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
+  TextStyle get searchFieldStyle =>
+      const TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
 
   SearchMovieDelegate(
       {required this.searchMovies, required this.initialMovies});
@@ -32,7 +34,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   void _onQueryChanged(String query) {
     if (query.isNotEmpty) isLoadingStream.add(true);
-    
+
     if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
 
     _debounceTimer = Timer(const Duration(milliseconds: 500), () async {
@@ -82,11 +84,12 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
                       onPressed: () => query = '',
                       icon: const Icon(Icons.refresh_rounded)));
             }
-      
+
             return FadeIn(
                 animate: query.isNotEmpty,
                 child: IconButton(
-                    onPressed: () => query = '', icon: const Icon(Icons.clear)));
+                    onPressed: () => query = '',
+                    icon: const Icon(Icons.clear)));
           },
         ),
       )
@@ -137,15 +140,9 @@ class _MovieItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: size.width * 0.2,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    movie.posterPath,
-                    loadingBuilder: (context, child, loadingProgress) =>
-                        FadeIn(child: child),
-                  )),
-            ),
+                width: size.width * 0.2,
+                child: ImageContainer(
+                    height: 130, radius: 10, imageUrl: movie.posterPath)),
             const SizedBox(width: 10),
             SizedBox(
                 width: size.width * 0.6,

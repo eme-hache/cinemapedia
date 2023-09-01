@@ -1,6 +1,6 @@
-import 'package:cinemapedia/domain/datasources/local_storage_datasource.dart';
-import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:cinemapedia/domain/repositories/local_storage_repository.dart';
+import 'package:cinemapedia/domain/repositories/repositories.dart';
+import 'package:cinemapedia/domain/entities/entities.dart';
+import 'package:cinemapedia/domain/datasources/datasources.dart';
 
 class IsarRepository extends LocalStorageRepository {
   final LocalStorageDatasource datasource;

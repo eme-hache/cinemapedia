@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:card_swiper/card_swiper.dart';
-import 'package:animate_do/animate_do.dart';
-
-import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:go_router/go_router.dart';
+import 'package:card_swiper/card_swiper.dart';
+
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
+import 'package:cinemapedia/domain/entities/entities.dart';
+import 'package:cinemapedia/config/constants/routes.dart';
 
 class MoviesSlideshow extends StatelessWidget {
-  final List<Movie> movies;
-
   const MoviesSlideshow({super.key, required this.movies});
+
+  final List<Movie> movies;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +35,9 @@ class MoviesSlideshow extends StatelessWidget {
 }
 
 class _Slide extends StatelessWidget {
-  final Movie movie;
-
   const _Slide({required this.movie});
+
+  final Movie movie;
 
   @override
   Widget build(BuildContext context) {
@@ -56,115 +57,41 @@ class _Slide extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: GestureDetector(
-                onTap: () => context.push('/home/0/movie/${movie.id}'),
+                onTap: () => context.push('${Routes.home}/movie/${movie.id}'),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    FadeInImage(
-                      fit: BoxFit.cover,
-                      placeholder:
-                          const AssetImage('assets/loaders/bottle-loader.gif'),
-                      image: NetworkImage(movie.backdropPath),
+                    ImageContainer(
+                      height: double.maxFinite,
+                      radius: 20,
+                      imageUrl: movie.backdropPath,
                     ),
                     Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(movie.title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: textStyles.titleMedium
-                                          ?.copyWith(color: Colors.white)),
-                                ),
-                                /* const Spacer(), */
-                                const SizedBox(width: 10),
-                                Icon(Icons.star, color: Colors.yellow.shade800),
-                                const SizedBox(width: 3),
-                                Text('${movie.voteAverage}',
-                                    style: textStyles.bodyMedium
+                      padding: const EdgeInsets.all(20),
+                      child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(movie.title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textStyles.titleMedium
                                         ?.copyWith(color: Colors.white)),
-                              ],
-                            ) /* Text(movie.title,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 16)) */
-                            ,
-                          ),
-                        )
+                              ),
+                              /* const Spacer(), */
+                              const SizedBox(width: 10),
+                              Icon(Icons.star, color: Colors.yellow.shade800),
+                              const SizedBox(width: 3),
+                              Text('${movie.voteAverage}',
+                                  style: textStyles.bodyMedium
+                                      ?.copyWith(color: Colors.white)),
+                            ],
+                          )),
+                    )
                   ],
                 ),
               ))),
     );
-
-    /* return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: DecoratedBox(
-          decoration: decoration,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              movie.backdropPath,
-              fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress != null) {
-                  return const DecoratedBox(
-                      decoration: BoxDecoration(color: Colors.black12));
-                }
-
-                return GestureDetector(
-                    onTap: () => context.push('/home/0/movie/${movie.id}'),
-                    child: FadeIn(
-                        child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        child,
-                        const DecoratedBox(
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    stops: [
-                              0.7,
-                              1.0
-                            ],
-                                    colors: [
-                              Colors.transparent,
-                              Colors.black87
-                            ]))),
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(movie.title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: textStyles.titleMedium
-                                          ?.copyWith(color: Colors.white)),
-                                ),
-                                /* const Spacer(), */
-                                const SizedBox(width: 10),
-                                Icon(Icons.star, color: Colors.yellow.shade800),
-                                const SizedBox(width: 3),
-                                Text('${movie.voteAverage}',
-                                    style: textStyles.bodyMedium
-                                        ?.copyWith(color: Colors.white)),
-                              ],
-                            ) /* Text(movie.title,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 16)) */
-                            ,
-                          ),
-                        )
-                      ],
-                    )));
-              },
-            ),
-          )),
-    ); */
   }
 }

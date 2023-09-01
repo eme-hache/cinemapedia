@@ -1,9 +1,10 @@
-import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
-import 'package:go_router/go_router.dart';
+import 'package:cinemapedia/config/constants/routes.dart';
 
 class FavoritesView extends ConsumerStatefulWidget {
   const FavoritesView({super.key});
@@ -63,7 +64,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
               height: 20,
             ),
             FilledButton.tonal(
-                onPressed: () => context.go('/home/0'),
+                onPressed: () => context.go(Routes.home),
                 child: const Text('Empieza a buscar'))
           ],
         ),
