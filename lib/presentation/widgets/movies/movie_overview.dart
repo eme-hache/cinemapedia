@@ -25,36 +25,39 @@ class MovieOverview extends StatelessWidget {
         children: [
           ImageContainer(imageUrl: movie.posterPath, height: 150, radius: 20),
           const SizedBox(width: 10),
-          SizedBox(
-            width: (size.width - 40) * 0.7,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(movie.title, style: textStyles.titleLarge),
-                Text(movie.overview),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: 150,
-                  child: Row(
-                    children: [
-                      Icon(Icons.star_half_outlined,
-                          color: Colors.yellow.shade800),
-                      const SizedBox(width: 3),
-                      Text(HumanFormats.number(movie.voteAverage, 1),
-                          style: textStyles.bodyMedium
-                              ?.copyWith(color: Colors.yellow.shade800)),
-                    ],
+          Expanded(
+            // width: (size.width - 40) * 0.7,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(movie.title, style: textStyles.titleLarge),
+                  Text(movie.overview),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: 150,
+                    child: Row(
+                      children: [
+                        Icon(Icons.star_half_outlined,
+                            color: Colors.yellow.shade800),
+                        const SizedBox(width: 3),
+                        Text(HumanFormats.number(movie.voteAverage, 1),
+                            style: textStyles.bodyMedium
+                                ?.copyWith(color: Colors.yellow.shade800)),
+                      ],
+                    ),
                   ),
-                ),
-                Row(
-                  children: [
-                    const Text('Estreno:',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    const SizedBox(width: 5),
-                    Text(HumanFormats.shortDate(movie.releaseDate))
-                  ],
-                )
-              ],
+                  Row(
+                    children: [
+                      const Text('Estreno:',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 5),
+                      Text(HumanFormats.shortDate(movie.releaseDate))
+                    ],
+                  )
+                ],
+              ),
             ),
           )
         ],

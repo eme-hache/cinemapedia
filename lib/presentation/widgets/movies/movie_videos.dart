@@ -36,27 +36,30 @@ class _VideosList extends StatelessWidget {
       return const SizedBox();
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // ignore: prefer_const_constructors
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: const Text(
-            'Videos',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 40),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ignore: prefer_const_constructors
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: const Text(
+              'Videos',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-
-        //* Aunque tengo varios videos, sólo quiero mostrar el primero
-        _YouTubeVideoPlayer(
-            youtubeId: videos.first.youtubeKey, name: videos.first.name)
-
-        //* Si se desean mostrar todos los videos
-        // ...videos.map(
-        //   (video) => _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: video.name)
-        // ).toList()
-      ],
+    
+          //* Aunque tengo varios videos, sólo quiero mostrar el primero
+          _YouTubeVideoPlayer(
+              youtubeId: videos.first.youtubeKey, name: videos.first.name)
+    
+          //* Si se desean mostrar todos los videos
+          // ...videos.map(
+          //   (video) => _YouTubeVideoPlayer(youtubeId: videos.first.youtubeKey, name: video.name)
+          // ).toList()
+        ],
+      ),
     );
   }
 }
