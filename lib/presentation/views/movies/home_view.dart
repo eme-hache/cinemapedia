@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
 
 class HomeView extends ConsumerStatefulWidget {
-  const HomeView({ super.key });
+  const HomeView({super.key});
 
   @override
   HomeViewState createState() => HomeViewState();
 }
 
-class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClientMixin {
+class HomeViewState extends ConsumerState<HomeView>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -28,10 +30,11 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    
+
     final initialLoading = ref.watch(initialLoadingProvider);
 
-    //if (initialLoading) return const FullScreenLoader();
+    if (initialLoading) return const FullScreenLoader();
+    FlutterNativeSplash.remove();
 
     final nowPlayingMoviesSlideshow = ref.watch(moviesSlideShowProvider);
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
@@ -40,55 +43,49 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
 
     return Stack(
       children: [
-        if (initialLoading) const FullScreenLoader(),
-        Visibility(
-          visible: !initialLoading,
-          child: CustomScrollView(slivers: [
-            const SliverAppBar(
-              floating: true,
-              toolbarHeight: 70,
-              flexibleSpace: FlexibleSpaceBar(
-                title: CustomAppbar(),
-                centerTitle: true,
-              ),
+        CustomScrollView(slivers: [
+          const SliverAppBar(
+            floating: true,
+            toolbarHeight: 70,
+            flexibleSpace: FlexibleSpaceBar(
+              title: CustomAppbar(),
+              centerTitle: true,
             ),
-            SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-              return Column(
-                children: [
-                  MoviesSlideshow(movies: nowPlayingMoviesSlideshow),
-                  MovieHorizontalListview(
-                    movies: nowPlayingMovies,
-                    title: 'En cines',
-                    subtitle: 'Lunes 20',
-                    loadNextPage: () => ref
-                        .read(nowPlayingMoviesProvider.notifier)
-                        .loadNextPage(),
-                  ),
-                  MovieHorizontalListview(
-                    movies: upconmingMovies,
-                    title: 'Proximamente',
-                    subtitle: 'En este mes',
-                    loadNextPage: () => ref
-                        .read(upcomingMoviesProvider.notifier)
-                        .loadNextPage(),
-                  ),
-                  MovieHorizontalListview(
-                    movies: topRatedMovies,
-                    title: 'Mejor calificadas',
-                    subtitle: 'Desde siempre',
-                    loadNextPage: () => ref
-                        .read(topRatedMoviesProvider.notifier)
-                        .loadNextPage(),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  )
-                ],
-              );
-            }, childCount: 1))
-          ]),
-        ),
+          ),
+          SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+            return Column(
+              children: [
+                MoviesSlideshow(movies: nowPlayingMoviesSlideshow),
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'En cines',
+                  subtitle: 'Lunes 20',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+                MovieHorizontalListview(
+                  movies: upconmingMovies,
+                  title: 'Proximamente',
+                  subtitle: 'En este mes',
+                  loadNextPage: () =>
+                      ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
+                ),
+                MovieHorizontalListview(
+                  movies: topRatedMovies,
+                  title: 'Mejor calificadas',
+                  subtitle: 'Desde siempre',
+                  loadNextPage: () =>
+                      ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
+                ),
+                const SizedBox(
+                  height: 50,
+                )
+              ],
+            );
+          }, childCount: 1))
+        ]),
       ],
     );
   }
